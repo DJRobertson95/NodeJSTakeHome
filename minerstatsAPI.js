@@ -17,4 +17,5 @@ async function getMinerstatsData() {
     }
 };
 
+// Exports
 module.exports = { getMinerstatsData };
