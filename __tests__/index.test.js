@@ -1,6 +1,10 @@
 // Imports
 const request = require('supertest');
 const app = require('../index');
+const jwt = require('jsonwebtoken');
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+const token = jwt.sign({ email: 'user@test.com' }, accessTokenSecret, { expiresIn: '60s' });
+
 
 // Test Suite
     // Describe Case
@@ -28,7 +32,7 @@ describe('GET /mining-pools', () => {
   it('should return a list of mining pools', async () => {
     const response = await request(app)
       .get('/mining-pools')
-      .set('Authorization', 'Basic dXNlckB0ZXN0LmNvbTpjZmZjZWQ=');
+      .set('Authorization', `Bearer ${token}`);
 
     // Expect
     expect(response.status).toBe(200);

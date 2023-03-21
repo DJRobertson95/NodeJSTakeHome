@@ -1,6 +1,9 @@
 // Imports
+require('dotenv').config();
 const express = require('express');
 const { getMinerstatsData } = require('./minerstatsAPI');
+const jwt = require('jsonwebtoken');
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
 // Express App
 const app = express();
@@ -18,19 +21,18 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
 
   // Split the Auth to get Auth type + token
-  const credentials = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(' ')[1];
 
-  // Convert credentials to Buffer &,
-  // Decode buffer using base64 encoding then username:token
-  const [username, token] = Buffer.from(credentials, 'base64').toString().split(':');
+  // Check for null token
+  if (token == null) return res.sendStatus(401);
 
-  // Pull username/token
-  if (username === 'user@test.com' && token === 'f2b0156f-cf95-4e29-9f57-51296a481c6a') {
+  jwt.verify(token, accessTokenSecret, (error, user) => {
+    // if token error, send
+    if (error) return res.sendStatus(403);
+    req.user = user;
     next();
-
-  } else {
-    res.sendStatus(401);
-  }
+      // if verified
+  });
 };
 
 // Route Handlers
