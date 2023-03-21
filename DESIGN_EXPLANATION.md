@@ -1,3 +1,16 @@
 # Overview of project
 
 # Design Decisions and Thoughts
+
+1. Set up Infrastructure
+   Axios
+2. Read documentation
+3. Authentication
+4. Endpoints
+5. Test
+
+---
+
+- Need to Set up Minerstats API Endpoint
+- Create API Endpoint that reutnrs the mining pool list
+- Create API Endpoint that allows searching for mining pools by coin
