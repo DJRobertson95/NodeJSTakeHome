@@ -18,10 +18,14 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
 
   // Split the Auth to get Auth type + token
-  const token = authHeader && authHeader.split(' ')[1];
+  const credentials = authHeader && authHeader.split(' ')[1];
 
-  // Check for Token match
-  if (token === 'f2b0156f-cf95-4e29-9f57-51296a481c6a') {
+  // Convert credentials to Buffer &,
+  // Decode buffer using base64 encoding then username:token
+  const [username, token] = Buffer.from(credentials, 'base64').toString().split(':');
+
+  // Pull username/token
+  if (username === 'user@test.com' && token === 'f2b0156f-cf95-4e29-9f57-51296a481c6a') {
     next();
 
   } else {

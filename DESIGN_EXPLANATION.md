@@ -14,3 +14,9 @@
 - Need to Set up Minerstats API Endpoint
 - Create API Endpoint that reutnrs the mining pool list
 - Create API Endpoint that allows searching for mining pools by coin
+
+---
+
+Mistakes Made
+
+- Forgot to split the Auth to get the auth type + token
