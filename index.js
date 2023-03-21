@@ -21,13 +21,24 @@ app.get("/", (req, res) => {
 app.get('/mining-pools', async (req, res) => {
   const data = await getMinerstatsData();
 
-  // Valid Data
+  // Valid API Data
   if (data) {
-    // Filter the data for type set to 'pool'
-    const miningPools = data.filter((item) => item.type === 'pool');
+    // Filter the data for type set to 'pool'; not individual coins.
+    let miningPools = data.filter((item) => item.type === 'pool');
+    const { coin } = req.query;
+
+    // Coin included in request
+    if (coin) {
+      // Filter for the specific coin
+      miningPools = miningPools.filter((item) => item.coin === coin.toUpperCase());
+    };
+
+    // Sort data by reward in descending order &,
+    // Select Top 10 pools w/ highest rewards
+    miningPools = miningPools.sort ((a, b) => b.reward - a.reward).slice(0, 10);
     res.json(miningPools);
 
-  // Invalid Data/Unsuccessful
+  // Invalid API Data/Unsuccessful
   } else {
     res.status(500).send('Internal Server Error!');
   }
