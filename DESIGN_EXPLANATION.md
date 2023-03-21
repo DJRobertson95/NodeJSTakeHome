@@ -25,3 +25,15 @@ Mistakes Made
 - Forgot to split the Auth to get the auth type:token
 - Having constant problems with authentication on index.js
   coming back
+
+---
+
+Explanation
+
+- Installed the Dependencies
+  express, jsonwebtoken, & supertest
+- Created .env to store out ACCESS_TOKEN_SECRET
+  -Added a middlware fn (authenticateToken) to check for a valid JWT in the request header.
+  if valid, the fn adds the user info to the req object
+- Also added a fn to GET /mining-pools
+- wrote test using supertest to ensure the server IS functioning
