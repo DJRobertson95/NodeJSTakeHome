@@ -11,6 +11,24 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
+// Authentication
+const authenticateToken = (req, res, next) => {
+
+  // Pull credentials
+  const authHeader = req.headers['authorization'];
+
+  // Split the Auth to get Auth type + token
+  const token = authHeader && authHeader.split(' ')[1];
+
+  // Check for Token match
+  if (token === 'f2b0156f-cf95-4e29-9f57-51296a481c6a') {
+    next();
+
+  } else {
+    res.sendStatus(401);
+  }
+};
+
 // Route Handlers
   // Catch-all
 app.get("/", (req, res) => {
@@ -18,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 // GET mining pool list
-app.get('/mining-pools', async (req, res) => {
+app.get('/mining-pools', authenticateToken, async (req, res) => {
   const data = await getMinerstatsData();
 
   // Valid API Data
