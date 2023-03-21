@@ -72,3 +72,4 @@ app.listen(port, () => {
 });
 
 // Exports
+module.exports = app;
