@@ -19,4 +19,4 @@
 
 Mistakes Made
 
-- Forgot to split the Auth to get the auth type + token
+- Forgot to split the Auth to get the auth type:token
